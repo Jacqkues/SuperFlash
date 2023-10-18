@@ -1,0 +1,9 @@
+/home/cytech/Desktop/Cours/ING2/JEE_Project/superflash/src/main/java/fr/cytech/superflash/entity/User.java
+/home/cytech/Desktop/Cours/ING2/JEE_Project/superflash/src/main/java/fr/cytech/superflash/dto/UserDto.java
+/home/cytech/Desktop/Cours/ING2/JEE_Project/superflash/src/main/java/fr/cytech/superflash/SuperflashApplication.java
+/home/cytech/Desktop/Cours/ING2/JEE_Project/superflash/src/main/java/fr/cytech/superflash/service/UserService.java
+/home/cytech/Desktop/Cours/ING2/JEE_Project/superflash/src/main/java/fr/cytech/superflash/service/impl/UserServiceImpl.java
+/home/cytech/Desktop/Cours/ING2/JEE_Project/superflash/src/main/java/fr/cytech/superflash/config/SecurityConfiguration.java
+/home/cytech/Desktop/Cours/ING2/JEE_Project/superflash/src/main/java/fr/cytech/superflash/controller/AuthController.java
+/home/cytech/Desktop/Cours/ING2/JEE_Project/superflash/src/main/java/fr/cytech/superflash/security/CustomUserDetailsService.java
+/home/cytech/Desktop/Cours/ING2/JEE_Project/superflash/src/main/java/fr/cytech/superflash/repository/UserRepository.java
