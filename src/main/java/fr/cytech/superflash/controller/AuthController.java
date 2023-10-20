@@ -24,6 +24,11 @@ public class AuthController {
 		this.userService = userService;
 	}
 	
+	@GetMapping("/accueil")
+	public String accueil() {
+		return "accueil";
+	}
+	
     // handler method to handle home page request
     @GetMapping("/index")
     public String home(){
