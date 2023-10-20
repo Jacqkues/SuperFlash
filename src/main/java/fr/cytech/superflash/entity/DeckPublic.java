@@ -9,7 +9,7 @@ public class DeckPublic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany
+    @OneToOne
     private Deck deck;
 
 	public Long getId() {
