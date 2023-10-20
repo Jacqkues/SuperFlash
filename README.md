@@ -13,11 +13,19 @@ git push origin <ton nom>
 ```
 
 
-quand tes changements on était accepter par le groupe : 
+mettre à jour ta branch avec les changements des autres: 
 
 ```
 git checkout main
 git pull origin main
 git checkout <ton nom>
 git merge master
+```
+
+mettre à jour ta branch si tu as du codes qui n'a pas était push : 
+
+```
+git stash
+git pull origin main
+git stash pop
 ```
