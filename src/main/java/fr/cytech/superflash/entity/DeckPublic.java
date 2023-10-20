@@ -11,6 +11,22 @@ public class DeckPublic {
 
     @ManyToMany
     private Deck deck;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Deck getDeck() {
+		return deck;
+	}
+
+	public void setDeck(Deck deck) {
+		this.deck = deck;
+	}
     
     
 }
