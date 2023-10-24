@@ -8,12 +8,12 @@ import org.springframework.stereotype.Controller;
 import jakarta.validation.Valid;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.DeleteMapping;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+
 
 import fr.cytech.superflash.dto.DeckDto;
 import fr.cytech.superflash.entity.Deck;
@@ -34,6 +34,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Controller
 public class DeckController {
 
+    @Autowired
     private DeckService deckService;
 
     @Autowired
@@ -48,11 +49,6 @@ public class DeckController {
     @Autowired
     private UserRepository userRepository;
 
-    public DeckController(DeckService deckService) {
-        this.deckService = deckService;
-    }
-
-    
     @PostMapping("/main/deck/save")
     public String saveDeck(@Valid @ModelAttribute("deck") DeckDto deckDto, BindingResult result, Model model) {
 

@@ -20,17 +20,19 @@ import fr.cytech.superflash.service.DeckService;
 @Service
 public class DeckServiceImpl implements DeckService{
 
+    @Autowired
     private DeckRepository deckRepository;
+
+    @Autowired
     private MatiereRepository matiereRepository;
 
     @Autowired
     private UserRepository userRepository;
-    @Autowired PossederDeckRepository possederDeckRepository;
 
-    public DeckServiceImpl(DeckRepository deckRepository , MatiereRepository matiereRepository) {
-        this.deckRepository = deckRepository;
-        this.matiereRepository = matiereRepository;
-    }
+    @Autowired 
+    private PossederDeckRepository possederDeckRepository;
+
+
 
     @Override
     public Deck saveDeck(DeckDto deckDto) {
