@@ -1,6 +1,8 @@
 package fr.cytech.superflash.entity;
 
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +31,15 @@ public class User
 	
 	@Column(nullable=false)
 	private String password;
+
+	@OneToMany
+	private List<Deck> decks;
 	
+
+	public List<Deck> getDecks() {
+		return decks;
+	}
+
 	public Long getId() {
 		return id;
 	}
