@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+    
+</head>
+
+<body>
+
+    <h1>
+        New deck
+    </h1>
+    <!--Creation d'un deck-->
+    <form method="post" role="form" th:action="@{/main/deck/save}">
+        <div class="form-group mb-3">
+            <label class="control-label"> Nom</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="Enter deck name" />
+        </div>
+
+        <div class="form-group mb-3">
+            <label class="control-label"> Description</label>
+            <input type="text" id="password" name="description" class="form-control" placeholder="Enter deck description" />
+        </div>
+
+
+        <select id="matiere" name="matiereId">
+            <option th:each="matiere : ${matieres}" th:value="${matiere.id}">
+                <span th:text="${matiere.name}"></span> 
+            </option>
+        </select>
+
+        <input type="submit" value="Enregistrer">
+    </form>
+    
+
+</body>
+
+</html>
+

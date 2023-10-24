@@ -17,7 +17,8 @@ public class FlashCard {
     @Column(nullable=false)
     private String reponse;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "deck_id")
     private Deck deck;
 
     public Long getId() {

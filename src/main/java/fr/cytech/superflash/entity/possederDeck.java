@@ -2,15 +2,18 @@ package fr.cytech.superflash.entity;
 
 import jakarta.persistence.*;
 
+@Entity
 public class possederDeck {
 
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToMany
+    @OneToOne
+	@JoinColumn(name = "deck_id")
     private Deck deck;
 
-    @ManyToMany
+    @OneToOne
+	@JoinColumn(name = "user_id")
     private User user;
 
 	public Long getId() {

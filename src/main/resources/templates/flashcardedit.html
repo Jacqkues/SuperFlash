@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Modifier une Flashcard</title>
+</head>
+
+<body>
+    <h1>Modifier une Flashcard</h1>
+
+    <form th:object="${flashcard}" method="post" action="/main/flashcard/update">
+        <input type="hidden" th:field="*{id}" />
+        <div>
+            <label for="question">Question:</label>
+            <input type="text" id="question" th:field="*{question}" />
+        </div>
+
+        <div>
+            <label for="reponse">Réponse:</label>
+            <input type="text" id="reponse" th:field="*{reponse}" />
+        </div>
+
+        <button type="submit">Mettre à jour</button>
+    </form>
+</body>
+
+</html>
