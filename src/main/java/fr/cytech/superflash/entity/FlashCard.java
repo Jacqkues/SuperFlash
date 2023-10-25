@@ -21,6 +21,11 @@ public class FlashCard {
 	@JoinColumn(name = "deck_id")
     private Deck deck;
 
+	@Temporal(TemporalType.DATE)
+	private Date revisionTime;
+
+    private int envelopeNb;
+
     public Long getId() {
 		return id;
 	}
@@ -69,8 +74,5 @@ public class FlashCard {
 		this.envelopeNb = envelopeNb;
 	}
 
-	@Temporal(TemporalType.DATE)
-	private Date revisionTime;
-
-    private int envelopeNb;
+	
 }
