@@ -1,6 +1,10 @@
 package fr.cytech.superflash.dto;
+
+
 import fr.cytech.superflash.entity.Matiere;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,37 +15,47 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DeckDto {
-	private long id;
-	
-	@NotEmpty(message="name shouldn't be empty")
-	private String name;
-	@NotEmpty(message="description shouldn't be empty")
-	private String description;
-	@NotEmpty(message="matiere shouldn't be empty")
-	private Matiere matiere;
-	
-	public long getId() {
+    
+	private Long id;
+
+    @NotEmpty
+    private String name;
+
+    @NotEmpty
+    private String description;
+
+    private Long matiereId;
+    
+    public Long getMatiereId(){
+    	return matiereId;
+    }
+    
+    public void setMatiereId(Long id) {
+    	this.matiereId = id;
+    }
+    
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+
+	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Matiere getMatiere() {
-		return matiere;
-	}
-	public void setMatiere(Matiere matiere) {
-		this.matiere = matiere;
-	}
+
 }

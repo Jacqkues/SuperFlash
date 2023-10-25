@@ -12,13 +12,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class FlashCardDto{
 	private long id;
-	
+
 	@NotEmpty(message="question shouldn't be empty")
 	private String question;
 	@NotEmpty(message="reponse shouldn't be empty")
 	private String reponse;
-	private Deck deck;
-	
+	private Long deckId;
+
 	public long getId() {
 		return id;
 	}
@@ -37,10 +37,10 @@ public class FlashCardDto{
 	public void setReponse(String reponse) {
 		this.reponse = reponse;
 	}
-	public Deck getDeck() {
-		return deck;
+	public Long getDeckId() {
+		return deckId;
 	}
-	public void setDeck(Deck deck) {
-		this.deck = deck;
+	public void setDeckId(Long deckId) {
+		this.deckId = deckId;
 	}
 }

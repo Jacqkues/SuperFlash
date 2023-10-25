@@ -4,31 +4,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
+<<<<<<< HEAD
 <body>
 	<header>
 		<a= href="/accueil"></a>
 	</header>
+=======
+<body class="flex items-center justify-center h-screen bg-gray-100">
+>>>>>>> main
 
-    <form method="post" role="form" th:action="@{/login}" class="form-horizontal">
-        <div class="form-group mb-3">
-            <label class="control-label"> Email</label>
-            <input type="text" id="username" name="username" class="form-control" placeholder="Enter email address" />
+    <div class="w-[40%]">
+        <div class="flex  flex-col justify-center">
+            <h1
+                class="text-8xl font-bold bg-gradient-to-r from-blue-600 to-green-500 inline-block text-transparent bg-clip-text">
+                SuperFlash</h1>
+            <p class="mt-4 text-xs font-light">by Jacques Dumora, Simon Loos and William Meunier</p>
         </div>
+    </div>
 
-        <div class="form-group mb-3">
-            <label class="control-label"> Password</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" />
-        </div>
-        <div class="form-group mb-3">
-            <button type="submit" class="btn btn-primary">Submit</button>
-            <span> Not registered ?
-                <a th:href="@{/register}">Register/Signup here</a>
-            </span>
-        </div>
-    </form>
+    <div class="bg-white p-8 rounded shadow-md">
+        <h2 class="text-2xl font-bold mb-4 text-center">Login</h2>
+        <form method="post" role="form" th:action="@{/login}">
+            <div class="mb-4">
+                <label> Email</label>
+                <input type="text" id="username" name="username" class="bg-white border rounded w-full py-2 px-3"
+                    placeholder="Enter Email" />
+            </div>
 
+            <div class="mb-5">
+                <label> Password</label>
+                <input type="password" id="password" name="password" class="bg-white border rounded w-full py-2 px-3"
+                    placeholder="Enter password" />
+            </div>
+            <div class="mb-2">
+                <button type="submit" class="bg-black text-white font-bold py-2 px-4 rounded w-full">Submit</button>
+                <span class="block mt-5 text-center"> Not registered ?
+                    <a th:href="@{/register}" href="/register" class="text-blue-500 underline">Register here</a>
+                </span>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>
+
