@@ -19,7 +19,7 @@ mettre à jour ta branch avec les changements des autres:
 git checkout main
 git pull origin main
 git checkout <ton nom>
-git merge master
+git merge main
 ```
 
 mettre à jour ta branch si tu as du codes qui n'a pas était push : 
