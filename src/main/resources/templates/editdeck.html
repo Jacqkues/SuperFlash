@@ -3,70 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <title>Flashcard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 
-<body>
 
-    <h1 th:text="${deck.name}"></h1>
-    <div th:if="${not #lists.isEmpty(flashcards)}">
+<header>
+    <nav class="flex justify-between items-center pt-4">
+        <ul
+            class="flex space-x-9 border border-white p-4 rounded-full bg-stone-800 text-white shadow-md mx-auto pl-12 pr-12 pb-3">
+            <li> <a class="text-sm font-bold hover:text-cyan-200  " href="#">ACCUEIL</a></li>
+            <!-- <li>|</li> -->
+            <li><a class="text-sm font-bold  text-cyan-400" href="/main/deck">FLASHCARDS</a></li>
+            <!-- <li>|</li> -->
+            <li><a class="text-sm font-bold hover:text-cyan-200" href="#">EXPLORER</a></li>
+            <!-- <li>|</li> -->
+            <li id="popupTrigger"><button data-modal-target="authentication-modal"
+                    data-modal-toggle="authentication-modal"><svg class="hover:text-cyan-200"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z" />
+                    </svg></button>
+            </li>
+        </ul>
+    </nav>
+</header>
 
-        <h1>Flashcards</h1>
-        <table>
-            <tr>
-                <th>ID</th>
-                <th>Question</th>
-                <th>Answer</th>
-                <th>Deck</th>
-            </tr>
-            <tr th:each="flashcard : ${flashcards}">
-                <td th:text="${flashcard.id}"></td>
-                <td th:text="${flashcard.question}"></td>
-                <td th:text="${flashcard.reponse}"></td>
-                <td th:text="${flashcard.deck.name}"></td>
+<body class="bg-gray-100">
+
+    <div class="max-w-[950px] m-auto mt-20">
+        <h1 class="text-4xl font-bold"> FlashCards in <span th:text="${deck.name}"></span> </h1>
+        <div th:if="${not #lists.isEmpty(flashcards)}">
+            <div th:each="flashcard : ${flashcards}" class="mt-8 mb-8 flex flex-col gap-6">
+                <div class="bg-white shadow-md rounded-lg w-[75%] flex justify-between p-4 items-center">
+                    <div class="flex flex-col gap-4">
+                        <span class="font-bold"> QUESTION : <span class="font-light mb-2"
+                                th:text="${flashcard.question}">question</span>
+                        </span>
+                        <span class="font-bold"> REPONSE :
+                            <span class="font-light mb-4" th:text="${flashcard.reponse}">reponse</span></span>
+                    </div>
 
 
-                <td>
-                    <button class="btn btn-danger" th:onclick="'javascript:deleteFlashCard(' + ${deck.id} + ',' + ${flashcard.id} + ')'">
-                        <span class="fa fa-trash"></span> Delete
-                    </button>
-                </td>
-                <td>
-                    <a th:href="@{/main/flashcard/edit/{id}(id=${flashcard.id})}">Edit</a>
-                </td>
-            </tr>
-        </table>
-    </div>
 
 
-    <div th:if="${#lists.isEmpty(flashcards)}">
-        <p>No flashcards available.</p>
-    </div>
+                    <div class="flex gap-4">
 
-    <form method="post" role="form" th:action="@{/main/flashcard/save}">
-        <div class="form-group mb-3">
-            <label class="control-label"> Question</label>
-            <input type="text" id="question" name="question" class="form-control" placeholder="Enter question" />
+                        <a th:href="@{/main/flashcard/edit/{id}(id=${flashcard.id})}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path fill="currentColor"
+                                    d="M21 12a1 1 0 0 0-1 1v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6a1 1 0 0 0 0-2H5a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-6a1 1 0 0 0-1-1Zm-15 .76V17a1 1 0 0 0 1 1h4.24a1 1 0 0 0 .71-.29l6.92-6.93L21.71 8a1 1 0 0 0 0-1.42l-4.24-4.29a1 1 0 0 0-1.42 0l-2.82 2.83l-6.94 6.93a1 1 0 0 0-.29.71Zm10.76-8.35l2.83 2.83l-1.42 1.42l-2.83-2.83ZM8 13.17l5.93-5.93l2.83 2.83L10.83 16H8Z" />
+                            </svg>
+                        </a>
+
+
+                        <button class="btn btn-danger"
+                            th:onclick="'javascript:deleteFlashCard(' + ${deck.id} + ',' + ${flashcard.id} + ')'">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                <path fill="red"
+                                    d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6v12M8 9h8v10H8V9m7.5-5l-1-1h-5l-1 1H5v2h14V4h-3.5Z" />
+                            </svg>
+                        </button>
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
         </div>
 
-        <div class="form-group mb-3">
-            <label class="control-label"> Reponse</label>
-            <input type="text" id="answer" name="reponse" class="form-control" placeholder="Enter answer" />
+
+        <div class="mb-8 mt-8" th:if="${#lists.isEmpty(flashcards)}">
+            <p>No flashcards available.</p>
         </div>
 
-        <input type="hidden" id="deckId" name="deckId" th:value="${deck.id}" />
 
-        <input type="submit" value="Enregistrer">
-    </form>
+        <button id="newFlashcard"  class="bg-stone-800 text-white rounded flex gap-1 px-2 py-1 items-center">
+            <svg class="hover:text-cyan-200" xmlns="http://www.w3.org/2000/svg" width="26" height="26"
+                viewBox="0 0 24 24">
+                <path fill="currentColor" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z" />
+            </svg>
 
-    <a href="/main/deck" class="btn btn-primary">Back to decks</a>
+            <span class="font-bold">NEW</span>
+        </button>
+        <div id="flashcardForm" class="hidden bg-stone-800 p-4 rounded mt-4 py-8 text-white w-[70%]">
+            <form method="post" role="form" th:action="@{/main/flashcard/save}">
+                    <div class="mb-4">
+                        <label class="control-label"> Question</label>
+                        <input class=" text-stone-800 bg-white border rounded w-full py-2 px-3" type="text" id="question" name="question" 
+                            placeholder="Enter question" />
+                    </div>
 
+                    <div class="mb-4">
+                        <label class="control-label"> Reponse</label>
+                        <input type="text" id="answer" name="reponse" class=" text-stone-800 bg-white border rounded w-full py-2 px-3" placeholder="Enter answer" />
+                    </div>
+
+                    <input type="hidden" id="deckId" name="deckId" th:value="${deck.id}" />
+
+                    <input class="text-stone-800 bg-white py-2 px-4 font-bold rounded" type="submit" value="SAVE">
+            </form>
+        </div>
+
+        <a href="/main/deck" class="btn btn-primary">Back to decks</a>
+
+    </div>
 </body>
 
 </html>
 
 <script>
-    function deleteFlashCard(deckId,flashcardId) {
+
+const newFlash = document.getElementById('newFlashcard');
+const flashcardForm = document.getElementById('flashcardForm');
+
+newFlash.addEventListener('click', () => {
+    flashcardForm.classList.toggle('hidden');
+    if(newFlash.innerText === 'NEW') {
+        newFlash.innerHTML = 'CANCEL';
+    } else {
+        newFlash.innerHTML = 'NEW';
+    }
+});
+
+    function deleteFlashCard(deckId, flashcardId) {
         console.log("Deleting flashcard " + flashcardId)
 
         if (confirm("Are you sure you want to delete this flashcard ?")) {

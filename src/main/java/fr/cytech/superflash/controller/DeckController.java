@@ -54,7 +54,7 @@ public class DeckController {
 
         if (result.hasErrors()) {
             model.addAttribute("deck", deckDto);
-            return "main";
+            return "dashboard";
         }
         Deck deck = deckService.saveDeck(deckDto);
 
@@ -102,6 +102,8 @@ public class DeckController {
             List<Deck> decks = user.getDecks();
             model.addAttribute("decks", decks); 
         }
+        List<Matiere> matieres = matiereRepository.findAll();
+        model.addAttribute("matieres", matieres);
 
         return "deck";
     }

@@ -28,7 +28,7 @@ public class DashBoardController {
 
         List<Matiere> matieres = matiereRepository.findAll();
         model.addAttribute("matieres", matieres);
-        return "adddeck";
+        return "dashboard";
     }
 
     
