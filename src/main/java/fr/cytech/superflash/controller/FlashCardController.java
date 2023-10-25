@@ -20,6 +20,8 @@ import jakarta.validation.Valid;
 
 import java.util.Optional;
 
+import java.util.List;
+
 @Controller
 public class FlashCardController {
 
@@ -28,6 +30,29 @@ public class FlashCardController {
 
     @Autowired
     private FlashCardService flashCardService;
+
+    @PostMapping("/main/flashcard/answer/{id}")
+    public String answerFlashCard(@PathVariable Long id, Model model) {
+        FlashCard flashCard = flashCardService.findFlashCardById(id);
+        //flashCard.setEnvelopeNb(flashCard.getEnvelopeNb() + 1);
+        //flashCardRepository.save(flashCard);
+        model.addAttribute("flashcard", flashCard);
+        return "redirect:/main/deck/edit/" + flashCard.getDeck().getId() + "?success";
+    }
+
+
+    @GetMapping("/main/flashcard/answer/{id}")
+    public String pageAnswerFlashCard(@PathVariable Long id , Model model){
+
+       
+
+
+
+        List<FlashCard> flashcards = flashCardService.findFlashCardByDeckId(id);
+        model.addAttribute("flashcards", flashcards);
+        return "reponse";
+    }
+
 
     @PostMapping("/main/flashcard/update")
     public String updateFlashCard(@Valid @ModelAttribute("flashcard") FlashCardDto flashCardDto, BindingResult result,
