@@ -6,15 +6,15 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="bg-gray-100" >
-        <header class="bg-gray-400 flex items-center justify-center">
+        <header class="flex items-center justify-center">
             <nav class="pt-4 mb-4">
                 <ul
                     class="flex space-x-9 border border-white p-4 rounded-full bg-stone-800 text-white shadow-md mx-auto pl-12 pr-12 pb-3">
-                    <li> <a class="text-sm font-bold text-cyan-400 " href="#">ACCUEIL</a></li>
+                    <li> <a class="text-sm font-bold hover:text-cyan-200 " href="#">ACCUEIL</a></li>
                     <li><a class="text-sm font-bold hover:text-cyan-200" href="/main/deck">FLASHCARDS</a></li>
                     <!-- <li>|</li> -->
                     <li><a class="text-sm font-bold hover:text-cyan-200" href="#">EXPLORER</a></li>
-                    <li> <a class="text-sm font-bold hover:text-cyan-200" href="#">CLASSEMENT</a></li>
+                    <li> <a class="text-sm font-bold text-cyan-400" href="#">MY ACCOUNT</a></li>
                     <!-- <li>|</li> -->
                     <li id="popupTrigger"><button data-modal-target="authentication-modal"
                             data-modal-toggle="authentication-modal"><svg class="hover:text-cyan-200"
@@ -28,22 +28,20 @@
 
         <main>
             
-            <h1 class="text-4xl font-bold">My account setting</h1>
-            <div class="bg-white mb-4 mx-[25%] rounded-lg mb-6 p-8 mb-8">
+            <h1 class="text-4xl font-bold flex justify-center mb-6">My account setting</h1>
+            <div class="bg-white mb-4 mx-[25%] rounded-lg mb-4 p-8 ">
                 <h3 class="text-2xl font-bold mb-4 text-center">Changer de nom d'utilisateur</h3>
-                <div class="bg-white mb-4 mx-[25%] rounded-lg mb-6" name="changeUsername">
+                <div class="bg-white mb-4 mx-[25%] rounded-lg" name="changeUsername">
                     <form method="post" role="form" th:action="@{/changeUserName}">
                         <label>Nouveau nom d'utilisateur</label>
                         <input type="text" id="username" name="username" class="bg-white border rounded w-full py-2 px-3 mb-2"
                             placeholder="Enter new username" />
-                        <label>Mot de passe</label>
-                        <input type="password" id="password" name="password" class="bg-white border rounded w-full py-2 px-3 mb-2" 
-                            placeholder="Enter password"/> 
-                        <button type="submit" class="bg-black text-white font-bold py-2 px-4 rounded w-full">Submit</button>                     
+                        
+                        <button type="submit" class="bg-black text-white font-bold py-2 px-4 rounded w-full">Save</button>                     
                     </form>
                 </div>
             </div>
-            <div class="bg-white mb-4 mx-[25%] rounded-lg mb-6 p-8">
+            <div class="bg-white mb-4 mx-[25%] rounded-lg p-8">
                 <h3 class="text-2xl font-bold mb-4 text-center">Changer de mot de passe</h3>
                 <div class="bg-white mb-4 mx-[25%] rounded-lg mb-6" name="changePassword">      
                     <form method="post" role="form" th:action="@{/changePassword}">
@@ -53,18 +51,18 @@
                         <label>Nouveau mot de passe</label>
                         <input type="password" id="newPassword" name="newPassword" class="bg-white border rounded w-full py-2 px-3 mb-2"
                             placeholder="Enter new password"/>
-                        <button type="submit" class="bg-black text-white font-bold py-2 px-4 rounded w-full">Submit</button>                    
+                        <button type="submit" class="bg-black text-white font-bold py-2 px-4 rounded w-full">Save</button>                    
                     </form>
                 </div>
             </div>
-            <div class="bg-white mb-4 mx-[25%] rounded-lg mb-6 p-8">
+            <div class="bg-white mb-4 mx-[25%] rounded-lg p-8">
                 <h3 class="text-2xl font-bold mb-4 text-center">Suppression compte</h3>
-                <div class="bg-white mb-4 mx-[25%] rounded-lg mb-6" name="deleteAccount">    
+                <div class="bg-white mb-4 mx-[25%] rounded-lg" name="deleteAccount">    
                     <form method="post" role="form" th:action="@{/deleteAccount}">
                         <label>Entrez votre mot de passe</label>
                         <input type="password" id="password" name="password" class="bg-white border rounded w-full py-2 px-3 mb-2"
                             placeholder="Enter password" />
-                        <button type="submit" class="bg-black text-white font-bold py-2 px-4 rounded w-full">Submit</button>                    
+                        <button type="submit" class="bg-black text-white font-bold py-2 px-4 rounded w-full">Delete Account</button>                    
                     </form>
                 </div>
             </div>
