@@ -1,10 +1,7 @@
 package fr.cytech.superflash.dto;
 
 
-import fr.cytech.superflash.entity.Matiere;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

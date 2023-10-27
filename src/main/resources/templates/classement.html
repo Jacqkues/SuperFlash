@@ -6,16 +6,15 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="bg-gray-100" >
-        <header class="bg-gray-400 flex justify-start">
-            <h1 class="text-8xl font-bold bg-gradient-to-r from-blue-600 to-green-500 inline-block text-transparent bg-clip-text mr-5">SuperFlash</h1>
-            <nav class="flex justify-between items-center pt-4">
+        <header class="bg-gray-400 flex items-center justify-center">
+            <nav class="pt-4 mb-4">
                 <ul
                     class="flex space-x-9 border border-white p-4 rounded-full bg-stone-800 text-white shadow-md mx-auto pl-12 pr-12 pb-3">
                     <li> <a class="text-sm font-bold text-cyan-400 " href="#">ACCUEIL</a></li>
-                    <li> <a class="text-sm font-bold hover:text-cyan-200" href="#">PARAMETRE</a></li>
                     <li><a class="text-sm font-bold hover:text-cyan-200" href="/main/deck">FLASHCARDS</a></li>
                     <!-- <li>|</li> -->
                     <li><a class="text-sm font-bold hover:text-cyan-200" href="#">EXPLORER</a></li>
+                    <li> <a class="text-sm font-bold hover:text-cyan-200" href="#">MY ACCOUNT</a></li>
                     <!-- <li>|</li> -->
                     <li id="popupTrigger"><button data-modal-target="authentication-modal"
                             data-modal-toggle="authentication-modal"><svg class="hover:text-cyan-200"
@@ -25,6 +24,7 @@
                     </li>
                 </ul>
             </nav>
+            
         </header>
 
 

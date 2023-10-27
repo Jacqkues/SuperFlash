@@ -1,5 +1,4 @@
 package fr.cytech.superflash.dto;
-import fr.cytech.superflash.entity.Deck;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
