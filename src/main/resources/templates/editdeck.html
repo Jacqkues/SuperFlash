@@ -18,8 +18,8 @@
             <!-- <li>|</li> -->
             <li><a class="text-sm font-bold hover:text-cyan-200" href="#">EXPLORER</a></li>
             <!-- <li>|</li> -->
-            <li id="popupTrigger"><button data-modal-target="authentication-modal"
-                    data-modal-toggle="authentication-modal"><svg class="hover:text-cyan-200"
+            <li id="popupTrigger"><button data-modal-target="createDeck-modal"
+                    data-modal-toggle="createDeck-modal"><svg class="hover:text-cyan-200"
                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z" />
                     </svg></button>
@@ -29,6 +29,40 @@
 </header>
 
 <body class="bg-gray-100">
+    <!-- Main modal -->
+    <div id="createDeck-modal"
+        class="fixed top-0 left-0 right-0 z-50 hidden w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
+        <div class="bg-white p-8 rounded shadow-md">
+            <!-- Contenu de la fenêtre modale -->
+            <h2 class="text-2xl font-bold mb-4 text-center">Create a Deck</h2>
+
+            <form method="post" role="form" th:action="@{/main/deck/save}">
+                <div class="mb-3">
+                    <label>Deck Name</label>
+                    <input id="name" name="name" class="bg-white border rounded w-full py-2 px-3"
+                        placeholder="Name of Deck" type="text" />
+                </div>
+
+                <div class="mb-3">
+                    <label>Description</label>
+                    <input id="Description" name="description" class="bg-white border rounded w-full py-2 px-3"
+                        placeholder="Description" type="text" />
+                </div>
+                <div class="mb-3 flex flex-col">
+                    <label>Matiere </label>
+                    <select class="mt-2 p-2" id="matiere" name="matiereId">
+                        <option th:each="matiere : ${matieres}" th:value="${matiere.id}">
+                            <span th:text="${matiere.name}"></span>
+                        </option>
+                    </select>
+                </div>
+
+                <button class="bg-black text-white font-bold py-2 px-4 rounded w-full" type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+
+    
 
     <div class="max-w-[950px] m-auto mt-20">
         <h1 class="text-4xl font-bold"> FlashCards in <span th:text="${deck.name}"></span> </h1>
@@ -84,11 +118,14 @@
                 viewBox="0 0 24 24">
                 <path fill="currentColor" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z" />
             </svg>
-
             <span class="font-bold">NEW</span>
         </button>
-        <div id="flashcardForm" class="hidden bg-stone-800 p-4 rounded mt-4 py-8 text-white w-[70%]">
-            <form method="post" role="form" th:action="@{/main/flashcard/save}">
+        <div id="flashcardForm" class="fixed top-0 left-0 right-0 z-50 hidden w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
+            <div class="bg-white p-8 rounded shadow-md">
+                <!-- Contenu de la fenêtre modale -->
+                <h2 class="text-2xl font-bold mb-4 text-center">Create a FlashCard</h2>
+    
+                <form method="post" role="form" th:action="@{/main/flashcard/save}">
                     <div class="mb-4">
                         <label class="control-label"> Question</label>
                         <input class=" text-stone-800 bg-white border rounded w-full py-2 px-3" type="text" id="question" name="question" 
@@ -102,9 +139,9 @@
 
                     <input type="hidden" id="deckId" name="deckId" th:value="${deck.id}" />
 
-                    <input class="text-stone-800 bg-white py-2 px-4 font-bold rounded" type="submit" value="SAVE">
+                    <input class="bg-black text-white font-bold py-2 px-4 rounded w-full" type="submit" value="SAVE">
             </form>
-        </div>
+            </div>
 
         <a href="/main/deck" class="btn btn-primary">Back to decks</a>
 
@@ -113,19 +150,35 @@
 
 </html>
 
+
+<!-- JavaScript pour gérer l'ouverture et la fermeture de la fenêtre modale -->
 <script>
 
-const newFlash = document.getElementById('newFlashcard');
-const flashcardForm = document.getElementById('flashcardForm');
+    const modalTrigger = document.querySelector('[data-modal-toggle]');
+    const modal = document.getElementById('createDeck-modal');
 
-newFlash.addEventListener('click', () => {
-    flashcardForm.classList.toggle('hidden');
-    if(newFlash.innerText === 'NEW') {
-        newFlash.innerHTML = 'CANCEL';
-    } else {
-        newFlash.innerHTML = 'NEW';
-    }
-});
+    modalTrigger.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+        }
+    });
+
+    const newFlash = document.getElementById('newFlashcard');
+    const flashcardForm = document.getElementById('flashcardForm');
+
+    newFlash.addEventListener('click', () => {
+    flashcardForm.classList.remove('hidden');
+    });
+
+    flashcardForm.addEventListener('click', (e) => {
+        if (e.target === flashcardForm) {
+            flashcardForm.classList.add('hidden');
+        }
+    });
 
     function deleteFlashCard(deckId, flashcardId) {
         console.log("Deleting flashcard " + flashcardId)
