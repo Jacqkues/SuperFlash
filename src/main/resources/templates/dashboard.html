@@ -5,17 +5,18 @@
     <meta charset="UTF-8">
     <title>Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <header>
-    <nav class="flex sm:justify-between  justify-center items-center sm:pt-4 pt-0">
+    <nav class="flex justify-between items-center pt-4">
         <ul
-            class="w-full sm:w-auto flex space-x-9  p-4 sm:rounded-full runded-none bg-stone-800 text-white shadow-md mx-auto pl-12 pr-12 pb-3">
+            class="flex space-x-9 border border-white p-4 rounded-full bg-stone-800 text-white shadow-md mx-auto pl-12 pr-12 pb-3">
             <li> <a class="text-sm font-bold text-cyan-400 " href="#">ACCUEIL</a></li>
             <li><a class="text-sm font-bold hover:text-cyan-200" href="/main/deck">FLASHCARDS</a></li>
             <li><a class="text-sm font-bold hover:text-cyan-200" href="#">EXPLORER</a></li>
-            <li id="popupTrigger"><button data-modal-target="authentication-modal"
-                    data-modal-toggle="authentication-modal"><svg class="hover:text-cyan-200"
+            <li id="popupTrigger"><button data-modal-target="createDeck-modal"
+                    data-modal-toggle="createDeck-modal"><svg class="hover:text-cyan-200"
                         xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z" />
                     </svg></button>
@@ -25,10 +26,8 @@
 </header>
 
 <body class="bg-gray-100">
-
-
     <!-- Main modal -->
-    <div id="authentication-modal"
+    <div id="createDeck-modal"
         class="fixed top-0 left-0 right-0 z-50 hidden w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
         <div class="bg-white p-8 rounded shadow-md">
             <!-- Contenu de la fenêtre modale -->
@@ -60,20 +59,75 @@
         </div>
     </div>
 
-    <!-- JavaScript pour gérer l'ouverture et la fermeture de la fenêtre modale -->
-    <script>
-        const modalTrigger = document.querySelector('[data-modal-toggle]');
-        const modal = document.getElementById('authentication-modal');
+    <div class=" justify-end flex pr-48 pt-20">
+        <div class="bg-white rounded shadow-md p-8 w-2/5">
+                <h2 class="text-lg mb-2 text-center">Graphique de Pourcentage de Bonnes Réponses par Deck hebdomadaire</h2>
+                <canvas id="myChart" width="200" height="100"></canvas>
+        </div>
+    </div>
 
-        modalTrigger.addEventListener('click', () => {
-            modal.classList.remove('hidden');
-        });
-
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.add('hidden');
-            }
-        });
-    </script>
+    
+    
 
 </body>
+<!-- JavaScript pour gérer l'ouverture et la fermeture de la fenêtre modale -->
+<script>
+    const modalTrigger = document.querySelector('[data-modal-toggle]');
+    const modal = document.getElementById('createDeck-modal');
+
+    modalTrigger.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+    });
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+        }
+    });
+</script>
+
+
+<script>
+    // Données fictives pour l'exemple
+    const data = {
+        labels: ['Jour 1', 'Jour 2', 'Jour 3', 'Jour 4', 'Jour 5', 'Jour 6', 'Jour 7'],
+        datasets: [
+            {
+                label: 'Deck 1',
+                data: [8, 17.5, 9, 18.5, 9.5, 15, 6], // Ajustez les valeurs entre 0 et 30
+                borderColor: 'rgba(255, 99, 132, 1)',
+                fill: false,
+            },
+            {
+                label: 'Deck 2',
+                data: [7, 8.5, 17.5, 8, 19, 4, 12], // Ajustez les valeurs entre 0 et 30
+                borderColor: 'rgba(75, 192, 192, 1)',
+                fill: false,
+            },
+            {
+                label: 'Deck 3',
+                data: [9, 19.5, 8, 17.5, 8.5, 10, 10], // Ajustez les valeurs entre 0 et 30
+                borderColor: 'rgba(54, 162, 235, 1)',
+                fill: false,
+            },
+        ],
+    };
+
+    const ctx = document.getElementById('myChart').getContext('2d');
+
+    const myChart = new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 30,
+                    ticks: {
+                        stepSize: 10,
+                    }
+                }
+            },
+        },
+    });
+</script>
