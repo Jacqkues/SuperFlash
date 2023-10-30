@@ -16,23 +16,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import fr.cytech.superflash.repository.MatiereRepository;
 import fr.cytech.superflash.entity.Matiere;
 
-import fr.cytech.superflash.entity.Deck;
-import fr.cytech.superflash.repository.DeckRepository;
 
 @Controller
 public class DashBoardController {
 
     @Autowired
     private MatiereRepository matiereRepository;
-    private DeckRepository deckRepository;
-
     @GetMapping("/main")
     public String dash(Model model) {
 
         List<Matiere> matieres = matiereRepository.findAll();
         model.addAttribute("matieres", matieres);
-        List<Deck> decks = deckRepository.findAll();
-        model.addAttribute("decks",decks);
         return "dashboard";
     }
 
