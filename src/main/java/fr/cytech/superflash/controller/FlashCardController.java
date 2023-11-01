@@ -13,51 +13,48 @@ import fr.cytech.superflash.dto.DeckDto;
 import fr.cytech.superflash.dto.FlashCardDto;
 import fr.cytech.superflash.entity.Deck;
 import fr.cytech.superflash.entity.FlashCard;
+import fr.cytech.superflash.entity.Revision;
+import fr.cytech.superflash.entity.User;
 import fr.cytech.superflash.repository.DeckRepository;
 import fr.cytech.superflash.repository.FlashCardRepository;
+import fr.cytech.superflash.repository.RevisionRepository;
+import fr.cytech.superflash.repository.UserRepository;
 import fr.cytech.superflash.service.FlashCardService;
 import jakarta.validation.Valid;
 
 import java.util.Optional;
 
 import java.util.List;
+import java.util.Collections;
+import java.util.Date;
+import java.util.ArrayList;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Controller
 public class FlashCardController {
 
     @Autowired
-    private FlashCardRepository flashCardRepository;
+    private RevisionRepository revisionRepository;
 
     @Autowired
     private FlashCardService flashCardService;
 
-    @PostMapping("/main/flashcard/answer/{id}")
-    public String answerFlashCard(@PathVariable Long id, Model model) {
-        FlashCard flashCard = flashCardService.findFlashCardById(id);
-        //flashCard.setEnvelopeNb(flashCard.getEnvelopeNb() + 1);
-        //flashCardRepository.save(flashCard);
-        model.addAttribute("flashcard", flashCard);
-        return "redirect:/main/deck/edit/" + flashCard.getDeck().getId() + "?success";
-    }
+    @Autowired
+    private UserRepository userRepository;
 
 
-    @GetMapping("/main/flashcard/answer/{id}")
-    public String pageAnswerFlashCard(@PathVariable Long id , Model model){
-
-       
+    @Autowired
+    private DeckRepository deckRepository;
 
 
-
-        List<FlashCard> flashcards = flashCardService.findFlashCardByDeckId(id);
-        model.addAttribute("flashcards", flashcards);
-        return "reponse";
-    }
-
+   
 
     @PostMapping("/main/flashcard/update")
     public String updateFlashCard(@Valid @ModelAttribute("flashcard") FlashCardDto flashCardDto, BindingResult result,
             Model model) {
-
 
         if (result.hasErrors()) {
             model.addAttribute("flashcard", flashCardDto);
@@ -83,7 +80,7 @@ public class FlashCardController {
     }
 
     @GetMapping("/main/flashcard/delete/{deckId}/{id}")
-    public String deleteFlashCard(@PathVariable Long deckId, @PathVariable Long id , Model model) {
+    public String deleteFlashCard(@PathVariable Long deckId, @PathVariable Long id, Model model) {
         flashCardService.deleteFlashCard(id);
         model.addAttribute("deckId", deckId);
         return "redirect:/main/deck/edit/" + deckId + "?success";

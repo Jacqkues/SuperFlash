@@ -1,7 +1,7 @@
 package fr.cytech.superflash.entity;
 
-
 import java.util.List;
+import java.util.ArrayList;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,32 +9,40 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="users")
-public class User
-{
+@Table(name = "users")
+public class User {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private String name;
-	
-	@Column(nullable=false, unique=true)
+
+	@Column(nullable = false, unique = true)
 	private String email;
-	
-	@Column(nullable=false)
+
+	@Column(nullable = false)
 	private String password;
 
 	@OneToMany
 	private List<Deck> decks;
-	
+
+	@OneToMany(mappedBy = "user")
+	private List<Revision> revisions = new ArrayList<>();
+
+	public List<Revision> getRevisions() {
+		return revisions;
+	}
+
+	public void setRevisions(List<Revision> revisions) {
+		this.revisions = revisions;
+	}
 
 	public List<Deck> getDecks() {
 		return decks;
@@ -72,5 +80,4 @@ public class User
 		this.password = password;
 	}
 
-	
 }

@@ -1,32 +1,35 @@
 package fr.cytech.superflash.entity;
 
-
 import jakarta.persistence.*;
 import java.util.Date;
-
+import java.util.List;
+import java.util.ArrayList;
 @Entity
-@Table(name="flashcards")
+@Table(name = "flashcards")
 public class FlashCard {
-    @Id
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-    @Column(nullable=false)
-    private String question;
+	@Column(nullable = false)
+	private String question;
 
-    @Column(nullable=false)
-    private String reponse;
+	@Column(nullable = false)
+	private String reponse;
 
-    @ManyToOne()
+	@ManyToOne()
 	@JoinColumn(name = "deck_id")
-    private Deck deck;
+	private Deck deck;
+
+	@ManyToMany(mappedBy = "flashcards")
+	private List<Revision> revisions = new ArrayList<>();
 
 	@Temporal(TemporalType.DATE)
 	private Date revisionTime;
 
-    private int envelopeNb;
+	private int envelopeNb;
 
-    public Long getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -74,5 +77,4 @@ public class FlashCard {
 		this.envelopeNb = envelopeNb;
 	}
 
-	
 }

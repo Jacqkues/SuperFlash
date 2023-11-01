@@ -51,10 +51,8 @@ public class DeckServiceImpl implements DeckService{
 
     @Override
     public void LinkUserToDeck(String userId, Long deckId) {
-       
         User user = userRepository.findByEmail(userId);
         Deck deck = deckRepository.findById(deckId).get();
-
         user.getDecks().add(deck);
         userRepository.save(user);
 
