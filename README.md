@@ -65,3 +65,12 @@ mvn spring-boot:run
 * **service/impl** : contient les implémentations des services de l'application
 * **security** : contient la class custom user details
 * **sql** : contient le script sql pour la création de la base de données
+
+
+| Nous utilisons tailwind css et chart.js depuis un CDN , veuillez être connecté à internet lorsque vous executez notre projet.
+
+
+## Auteurs 
+* Jacques Dumora
+* William Meunier
+* Simon Loos
