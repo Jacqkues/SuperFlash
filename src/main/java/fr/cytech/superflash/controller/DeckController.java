@@ -79,7 +79,7 @@ public class DeckController {
 
         if (result.hasErrors()) {
             model.addAttribute("deck", deckDto);
-            return "dashboard";
+            return "redirect:/main/deck?error";
         }
         Deck deck = deckService.saveDeck(deckDto);
 

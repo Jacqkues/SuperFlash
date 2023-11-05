@@ -1,7 +1,9 @@
 package fr.cytech.superflash.controller;
 
 import fr.cytech.superflash.dto.UserDto;
+import fr.cytech.superflash.entity.Matiere;
 import fr.cytech.superflash.entity.User;
+import fr.cytech.superflash.repository.MatiereRepository;
 import fr.cytech.superflash.service.UserService;
 
 import java.util.List;
@@ -21,10 +23,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class AuthController {
 
-
     @Autowired
     private UserService userService;
-    
+
+    @Autowired
+    private MatiereRepository matiereRepository;
     // handler method to handle home page request
     @GetMapping("/index")
     public String home() {
@@ -38,20 +41,20 @@ public class AuthController {
         return "register";
     }
 
-
     @GetMapping("/main/myaccount")
-    public String displayMyaccount(Model model){
+    public String displayMyaccount(Model model) {
 
-         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             String username = userDetails.getUsername();
-            
+
             User user = userService.findUserByEmail(username);
             model.addAttribute("user", user);
-            
-        }
 
+        }
+        List<Matiere> matieres = matiereRepository.findAll();
+        model.addAttribute("matieres", matieres);
         return "myaccount";
     }
 
@@ -85,5 +88,4 @@ public class AuthController {
         return "login";
     }
 
-    
 }

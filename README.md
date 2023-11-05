@@ -3,7 +3,7 @@ SuperFlash est une application de flashcards intelligente qui vous aide à progr
 
 ## Installation
 
-* Dans un premier temps , il faut éditer le fichier application.properties et modifier les informations de connexion à la base de données (remplacer user et password par les identifiant de votre bdd mysql). Le fichier se trouve dans src/main/resources.
+* Dans un premier temps , il faut éditer le fichier application.properties et modifier les informations de connexion à la base de données (remplacer user et password par les identifiant de votre bdd mysql). Le fichier se trouve dans src/main/ressources.
 
 ```
 
