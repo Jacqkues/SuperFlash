@@ -6,6 +6,10 @@ import fr.cytech.superflash.service.UserService;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import jakarta.validation.Valid;
 import org.springframework.ui.Model;
@@ -17,12 +21,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class AuthController {
 
-    private final UserService userService;
 
-    public AuthController(UserService userService) {
-        this.userService = userService;
-    }
-
+    @Autowired
+    private UserService userService;
+    
     // handler method to handle home page request
     @GetMapping("/index")
     public String home() {
@@ -34,6 +36,22 @@ public class AuthController {
         UserDto user = new UserDto();
         model.addAttribute("user", user);
         return "register";
+    }
+
+
+    @GetMapping("/main/myaccount")
+    public String displayMyaccount(Model model){
+
+         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String username = userDetails.getUsername();
+            
+            User user = userService.findUserByEmail(username);
+            model.addAttribute("user", user);
+        }
+
+        return "myaccount";
     }
 
     @PostMapping("/register/save")

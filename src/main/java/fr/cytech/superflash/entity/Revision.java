@@ -12,7 +12,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.util.ArrayList;
@@ -130,5 +129,9 @@ public class Revision {
 
     public void setNbFlashCardGood(int nbFlashCardGood) {
         this.nbFlashCardGood = nbFlashCardGood;
+    }
+
+    public int getPercentage(){
+        return (int) (((double) this.nbFlashCardGood / (double) this.nbFlashCard) * 100);
     }
 }

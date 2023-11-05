@@ -18,6 +18,16 @@ public class Deck {
     @ManyToOne
     private Matiere matiere;
 
+	@Column()
+	private boolean isPublic;
+
+	public void setIsPublic(boolean isPublic) {
+		this.isPublic = isPublic;
+	}
+
+	public boolean isIsPublic() {
+        return isPublic;
+    }
 
 
 	public Long getId() {

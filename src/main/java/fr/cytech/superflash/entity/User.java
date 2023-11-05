@@ -36,6 +36,17 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<Revision> revisions = new ArrayList<>();
 
+	@OneToOne()
+	private Score score;
+
+	public Score getScore() {
+		return score;
+	}
+
+	public void setScore(Score score) {
+		this.score = score;
+	}
+
 	public List<Revision> getRevisions() {
 		return revisions;
 	}

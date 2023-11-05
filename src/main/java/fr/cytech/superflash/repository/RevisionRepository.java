@@ -5,7 +5,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Date;
 import fr.cytech.superflash.entity.Revision;
+import fr.cytech.superflash.entity.User;
 
 public interface RevisionRepository extends JpaRepository<Revision, Long>{
 
@@ -15,4 +17,8 @@ public interface RevisionRepository extends JpaRepository<Revision, Long>{
 
     @Query("SELECT r FROM Revision r WHERE r.user.email = :userName AND r.deck.id = :deckId")
     List<Revision> findAllByUserIdAndDeckId(@Param("userName") String userName, @Param("deckId") Long deckId);
+
+    Revision findByUserAndRevisionTimeAndType(User user, Date revisionTime, String type);
+
+    List<Revision> findByDeckIdAndFinishIsTrue(Long deckId);
 } 

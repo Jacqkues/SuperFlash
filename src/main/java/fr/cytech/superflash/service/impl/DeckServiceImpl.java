@@ -1,6 +1,7 @@
 package fr.cytech.superflash.service.impl;
 
 import java.util.Optional;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +10,10 @@ import fr.cytech.superflash.dto.DeckDto;
 import fr.cytech.superflash.entity.Deck;
 import fr.cytech.superflash.entity.Matiere;
 import fr.cytech.superflash.entity.User;
-import fr.cytech.superflash.entity.possederDeck;
+
 import fr.cytech.superflash.repository.DeckRepository;
 import fr.cytech.superflash.repository.MatiereRepository;
-import fr.cytech.superflash.repository.PossederDeckRepository;
+
 import fr.cytech.superflash.repository.UserRepository;
 import fr.cytech.superflash.service.DeckService;
 
@@ -29,10 +30,6 @@ public class DeckServiceImpl implements DeckService{
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired 
-    private PossederDeckRepository possederDeckRepository;
-
-
 
     @Override
     public Deck saveDeck(DeckDto deckDto) {
@@ -41,6 +38,8 @@ public class DeckServiceImpl implements DeckService{
         deck.setDescription(deckDto.getDescription());
         
         Optional<Matiere > matiere = matiereRepository.findById(deckDto.getMatiereId());
+
+        deck.setIsPublic(false);
 
         if(matiere.isPresent()){
             deck.setMatiere(matiere.get());
@@ -58,6 +57,58 @@ public class DeckServiceImpl implements DeckService{
 
     }
 
+    @Override
+    public void deleteDeck(Long id) {
+        Optional<Deck> deckOptional = deckRepository.findById(id);
+
+        if (deckOptional.isEmpty()) {
+
+            throw new RuntimeException("director not found");
+        }
+        Deck deck = deckOptional.orElse(new Deck());
+        deckRepository.delete(deck);
+
+    }
+
+    @Override
+    public List<Deck> findPublicDeck() {
+        return deckRepository.findByIsPublic(true);
+    }
     
+    @Override
+    public Deck findById(Long id) {
+        Optional<Deck> deckOptional = deckRepository.findById(id);
+        if (deckOptional.isEmpty()) {
+            throw new RuntimeException("deck not found");
+        }
+        Deck deck = deckOptional.orElse(new Deck());
+        return deck;
+    }
+
+    @Override
+    public void makePublic(Long id) {
+        Optional<Deck> deckOptional = deckRepository.findById(id);
+
+        if (deckOptional.isEmpty()) {
+
+            throw new RuntimeException("deck not found");
+        }
+        Deck deck = deckOptional.orElse(new Deck());
+        deck.setIsPublic(true);
+        deckRepository.save(deck);
+    }
+
+    @Override
+    public void makePrivate(Long id) {
+        Optional<Deck> deckOptional = deckRepository.findById(id);
+
+        if (deckOptional.isEmpty()) {
+
+            throw new RuntimeException("deck not found");
+        }
+        Deck deck = deckOptional.orElse(new Deck());
+        deck.setIsPublic(false);
+        deckRepository.save(deck);
+    }
     
 }

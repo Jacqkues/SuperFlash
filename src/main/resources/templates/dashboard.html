@@ -10,17 +10,18 @@
 
 <header>
     <nav class="flex justify-between items-center pt-4">
-        <ul
-            class="flex space-x-9 border border-white p-4 rounded-full bg-stone-800 text-white shadow-md mx-auto pl-12 pr-12 pb-3">
-            <li> <a class="text-sm font-bold text-cyan-400 " href="#">ACCUEIL</a></li>
+        <ul class="flex space-x-9 p-4 rounded-full bg-stone-800 text-white shadow-md mx-auto pl-12 pr-12 pb-3">
+            <li> <a class="text-sm font-bold text-cyan-400 " href="/main">ACCUEIL</a></li>
             <li><a class="text-sm font-bold hover:text-cyan-200" href="/main/deck">FLASHCARDS</a></li>
-            <li><a class="text-sm font-bold hover:text-cyan-200" href="#">EXPLORER</a></li>
+            <li><a class="text-sm font-bold hover:text-cyan-200" href="/main/deck/explore">EXPLORER</a></li>
+            <li><a class="text-sm font-bold hover:text-cyan-200" href="/main/myaccount">MY ACCOUNT</a></li>
             <li id="popupTrigger"><button data-modal-target="createDeck-modal" data-modal-toggle="createDeck-modal"><svg
                         class="hover:text-cyan-200" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                         viewBox="0 0 24 24">
                         <path fill="currentColor" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z" />
                     </svg></button>
             </li>
+
         </ul>
     </nav>
 </header>
@@ -59,12 +60,46 @@
         </div>
     </div>
 
-    <div class=" justify-center flex gap-8 pt-20">
-        <div class="bg-white rounded shadow-md p-8 w-2/5">
-            <h2 class="font-bold">Not finished revisions</h2>
+    <div class=" justify-center flex gap-8 pt-20 flex-wrap">
+        <div class="bg-white rounded shadow-md p-8 w-2/5 min-w-[600px]">
+
+            <h2 class="font-bold">Smart revision : </h2>
+
+            <th:block th:if="${smartRev != null}">
+                <th:block th:if="${not smartRev.finish and not #lists.isEmpty(smartRev.flashcards)}">
+                    <div class="flex justify-between bg-white border w-full p-4 mb-4">
+
+                        <span th:text="${smartRev.deck.name}"></span>
+
+                        <div class="flex gap-2">
+                            <a class="flex items-center gap-2 cursor-pointer"
+                                th:href="@{/main/flashcard/revision/{revId}/0(revId=${smartRev.id})}">
+                                <span class="font-light">START</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16">
+                                    <path fill="currentColor" fill-rule="evenodd"
+                                        d="m4.25 3l1.166-.624l8 5.333v1.248l-8 5.334l-1.166-.624V3zm1.5 1.401v7.864l5.898-3.932L5.75 4.401z"
+                                        clip-rule="evenodd" />
+                                </svg></a>
+                        </div>
+                    </div>
+
+                </th:block>
+
+                <th:block th:unless="${not smartRev.finish and not #lists.isEmpty(smartRev.flashcards)}">
+                    <p>No Revision Today</p>
+                </th:block>
+            </th:block>
+
+            <th:block th:unless="${smartRev != null}">
+                <p>No Revision Today</p>
+            </th:block>
+
+
+
+            <h2 class="font-bold mt-4">Not finished revisions</h2>
 
             <div class="mt-4" th:each="revision : ${revisions}">
-              
+
 
                 <div class="flex justify-between bg-white border w-full p-4 mb-4">
 
@@ -72,9 +107,10 @@
 
                     <div class="flex gap-2">
 
-                        
-                       
-                        <a class="flex items-center gap-2 cursor-pointer" th:href="@{/main/flashcard/revision/{revId}/{index}(revId=${revision.id}, index=${revision.lastIndex})}">
+
+
+                        <a class="flex items-center gap-2 cursor-pointer"
+                            th:href="@{/main/flashcard/revision/{revId}/{index}(revId=${revision.id}, index=${revision.lastIndex})}">
                             <span class="font-light">CONTINUE</span>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16">
                                 <path fill="currentColor" fill-rule="evenodd"
@@ -84,10 +120,13 @@
                     </div>
                 </div>
             </div>
+            <th:block th:if="${#lists.isEmpty(revisions)}">
+                <p>You finished all your started revision</p>
+            </th:block>
         </div>
 
-        <div class="bg-white rounded shadow-md p-8 w-2/5">
-            <h2 class="text-lg mb-2 text-center">Graphique de Pourcentage de Bonnes Réponses par Deck hebdomadaire</h2>
+        <div class="bg-white rounded shadow-md p-8 w-2/5 min-w-[600px]">
+            <h2 class="text-lg mb-2 text-center">Progression </h2>
             <canvas id="myChart" width="200" height="100"></canvas>
         </div>
     </div>
@@ -113,47 +152,45 @@
 </script>
 
 
+
+
 <script>
-    // Données fictives pour l'exemple
-    const data = {
-        labels: ['Jour 1', 'Jour 2', 'Jour 3', 'Jour 4', 'Jour 5', 'Jour 6', 'Jour 7'],
-        datasets: [
-            {
-                label: 'Deck 1',
-                data: [8, 17.5, 9, 18.5, 9.5, 15, 6], // Ajustez les valeurs entre 0 et 30
-                borderColor: 'rgba(255, 99, 132, 1)',
-                fill: false,
-            },
-            {
-                label: 'Deck 2',
-                data: [7, 8.5, 17.5, 8, 19, 4, 12], // Ajustez les valeurs entre 0 et 30
-                borderColor: 'rgba(75, 192, 192, 1)',
-                fill: false,
-            },
-            {
-                label: 'Deck 3',
-                data: [9, 19.5, 8, 17.5, 8.5, 10, 10], // Ajustez les valeurs entre 0 et 30
-                borderColor: 'rgba(54, 162, 235, 1)',
-                fill: false,
-            },
-        ],
-    };
+    fetch('/main/api/progress')
+        .then(response => response.json())
+        .then(data => {
+            const datasets = data.map(item => ({
+                label: item.label,
+                data: item.values,
+                borderColor: item.color,
+                borderWidth: 2,
+                fill: false
+            }));
 
-    const ctx = document.getElementById('myChart').getContext('2d');
+            console.log(datasets);
+            const maxValues = Math.max(...data.map(item => item.values.length));
+            const dt = {
+                labels: Array.from({ length: maxValues }, (_, i) => (i + 1).toString()),
+                datasets: datasets
+            };
 
-    const myChart = new Chart(ctx, {
-        type: 'line',
-        data: data,
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 30,
-                    ticks: {
-                        stepSize: 10,
+            const ctx = document.getElementById('myChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: dt,
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                stepSize: 25,
+                            }
+                        }
                     }
                 }
-            },
-        },
-    });
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 </script>

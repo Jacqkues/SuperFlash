@@ -20,6 +20,15 @@
 
     <div class="bg-white p-8 rounded shadow-md">
         <h2 class="text-2xl font-bold mb-4 text-center">Login</h2>
+
+
+        <th:block th:if="${param.error != null}">
+            <!-- Display an alert with the error message -->
+            <div class="alert alert-danger text-red-800 mb-4">
+                <strong>Invalid credentials. Please try again.</strong> 
+            </div>
+        </th:block>
+
         <form method="post" role="form" th:action="@{/login}">
             <div class="mb-4">
                 <label> Email</label>
@@ -43,4 +52,3 @@
 </body>
 
 </html>
-

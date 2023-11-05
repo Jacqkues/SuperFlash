@@ -9,49 +9,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
-import fr.cytech.superflash.dto.DeckDto;
+
 import fr.cytech.superflash.dto.FlashCardDto;
-import fr.cytech.superflash.entity.Deck;
+
 import fr.cytech.superflash.entity.FlashCard;
-import fr.cytech.superflash.entity.Revision;
-import fr.cytech.superflash.entity.User;
-import fr.cytech.superflash.repository.DeckRepository;
-import fr.cytech.superflash.repository.FlashCardRepository;
-import fr.cytech.superflash.repository.RevisionRepository;
-import fr.cytech.superflash.repository.UserRepository;
+
+
 import fr.cytech.superflash.service.FlashCardService;
 import jakarta.validation.Valid;
 
-import java.util.Optional;
 
-import java.util.List;
-import java.util.Collections;
-import java.util.Date;
-import java.util.ArrayList;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Controller
 public class FlashCardController {
 
-    @Autowired
-    private RevisionRepository revisionRepository;
+    
 
     @Autowired
     private FlashCardService flashCardService;
 
-    @Autowired
-    private UserRepository userRepository;
-
-
-    @Autowired
-    private DeckRepository deckRepository;
-
-
-   
-
+    
     @PostMapping("/main/flashcard/update")
     public String updateFlashCard(@Valid @ModelAttribute("flashcard") FlashCardDto flashCardDto, BindingResult result,
             Model model) {

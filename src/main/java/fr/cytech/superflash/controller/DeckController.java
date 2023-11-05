@@ -1,7 +1,7 @@
 package fr.cytech.superflash.controller;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,21 +14,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-
 import fr.cytech.superflash.dto.DeckDto;
 import fr.cytech.superflash.entity.Deck;
 import fr.cytech.superflash.entity.FlashCard;
 import fr.cytech.superflash.entity.Matiere;
 import fr.cytech.superflash.entity.User;
-import fr.cytech.superflash.repository.DeckRepository;
-import fr.cytech.superflash.repository.FlashCardRepository;
 import fr.cytech.superflash.repository.MatiereRepository;
-import fr.cytech.superflash.repository.UserRepository;
-import fr.cytech.superflash.service.DeckService;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import fr.cytech.superflash.service.DeckService;
+import fr.cytech.superflash.service.FlashCardService;
+import fr.cytech.superflash.service.UserService;
+
 
 
 @Controller
@@ -38,16 +34,30 @@ public class DeckController {
     private DeckService deckService;
 
     @Autowired
-    private DeckRepository deckRepository;
-
-    @Autowired
-    private FlashCardRepository flashCardRepository;
+    private FlashCardService flashCardService;
 
     @Autowired
     private MatiereRepository matiereRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
+
+    @GetMapping("/main/deck/explore")
+    public String explorePublicDeck(Model model) {
+        List<Deck> decks = deckService.findPublicDeck();
+
+        model.addAttribute("decks", decks);
+        return "explore";
+
+    }
+
+    @PostMapping("/main/deck/publish")
+    public String publishDeck(Long deckId) {
+
+        deckService.makePublic(deckId);
+        Deck deck = deckService.findById(deckId);
+        return "redirect:/main/deck/edit/" + deck.getId();
+    }
 
     @PostMapping("/main/deck/save")
     public String saveDeck(@Valid @ModelAttribute("deck") DeckDto deckDto, BindingResult result, Model model) {
@@ -57,32 +67,20 @@ public class DeckController {
             return "dashboard";
         }
         Deck deck = deckService.saveDeck(deckDto);
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String username = userDetails.getUsername();
-            
-            deckService.LinkUserToDeck(username, deck.getId());
-            
-        }
-
+      
+        User user = userService.getAuthUser();
+        deckService.LinkUserToDeck(user.getEmail(), deck.getId());
+        userService.updateNbDeckCree(user);
         return "redirect:/main/deck/edit/" + deck.getId();
     }
 
     @GetMapping("/main/deck/edit/{id}")
     public String flashcard(@PathVariable Long id, Model model) {
 
-        Optional<Deck> deckOptional = deckRepository.findById(id);
-
-        if (deckOptional.isEmpty()) {
-
-            throw new RuntimeException("director not found");
-        }
-        Deck deck = deckOptional.orElse(new Deck());
+        Deck deck = deckService.findById(id);
         model.addAttribute("deck", deck);
 
-        List<FlashCard> flashCards = flashCardRepository.findByDeckId(id);
+        List<FlashCard> flashCards = flashCardService.findFlashCardByDeckId(id);
         model.addAttribute("flashcards", flashCards);
 
         return "editdeck";
@@ -91,17 +89,8 @@ public class DeckController {
     @GetMapping("/main/deck")
     public String dash(Model model) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String username = userDetails.getUsername();
-
-
-            User user = userRepository.findByEmail(username);
-
-            List<Deck> decks = user.getDecks();
-            model.addAttribute("decks", decks); 
-        }
+        List<Deck> decks = userService.getAuthUser().getDecks();
+        model.addAttribute("decks", decks);
         List<Matiere> matieres = matiereRepository.findAll();
         model.addAttribute("matieres", matieres);
 
@@ -111,19 +100,11 @@ public class DeckController {
     @GetMapping("/main/deck/delete/{id}")
     public String deleteDeck(@PathVariable Long id) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String username = userDetails.getUsername();
-
-
-            User user = userRepository.findByEmail(username);
-
-            user.getDecks().removeIf(deck -> deck.getId() == id);
-            userRepository.save(user);
-           // model.addAttribute("decks", decks); 
-        }
-       // deckService.deleteDeck(id);
+        User user = userService.getAuthUser();
+        user.getDecks().removeIf(deck -> deck.getId() == id);
+        userService.updateUser(user);
+        deckService.makePrivate(id);
+       
 
         return "redirect:/main/deck";
     }

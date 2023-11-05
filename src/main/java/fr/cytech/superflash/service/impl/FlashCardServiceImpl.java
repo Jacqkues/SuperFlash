@@ -1,10 +1,10 @@
 package fr.cytech.superflash.service.impl;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,11 +35,16 @@ public class FlashCardServiceImpl implements FlashCardService {
 
         Date currentDate = new Date();
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+
         FlashCard flashCard = new FlashCard();
         flashCard.setQuestion(flashCardDto.getQuestion());
         flashCard.setReponse(flashCardDto.getReponse());
         flashCard.setEnvelopeNb(1);
-        flashCard.setRevisionTime(currentDate);
+        flashCard.setRevisionTime(calendar.getTime());
 
         Optional<Deck> deck = deckRepository.findById(flashCardDto.getDeckId());
 
@@ -85,5 +90,16 @@ public class FlashCardServiceImpl implements FlashCardService {
 
             return null;
             
+    }
+
+    @Override
+    public void updateRevisionTime(FlashCard flashCard, Date date){
+        flashCard.setRevisionTime(date);
+        flashCardRepository.save(flashCard);
+    }
+
+    @Override
+    public void update(FlashCard flashcard){
+        flashCardRepository.save(flashcard);
     }
 }

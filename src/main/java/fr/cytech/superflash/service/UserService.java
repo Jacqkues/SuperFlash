@@ -12,4 +12,14 @@ public interface UserService {
 	User findUserByEmail(String email);
 	
 	List<UserDto> findAllUsers();
+
+	void updateUser(User user);
+
+	User getAuthUser();
+
+	void increaseScore();
+
+	void decreaseScore();
+
+	void updateNbDeckCree(User user);
 }
