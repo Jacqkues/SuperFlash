@@ -22,7 +22,7 @@ mysql -u user -p
 source superflash.sql
 ```
 
-* Enfin, vous pouvez lancer l'application depuis eclipse ou en ligne de commande avec la commande suivante :
+* Enfin, vous pouvez lancer l'application depuis eclipse en important un projet maven ou en ligne de commande avec la commande suivante :
 
 ```
 mvn spring-boot:run
