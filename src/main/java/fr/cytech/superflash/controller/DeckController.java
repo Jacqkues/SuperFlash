@@ -2,7 +2,6 @@ package fr.cytech.superflash.controller;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import jakarta.validation.Valid;
@@ -24,8 +23,6 @@ import fr.cytech.superflash.repository.MatiereRepository;
 import fr.cytech.superflash.service.DeckService;
 import fr.cytech.superflash.service.FlashCardService;
 import fr.cytech.superflash.service.UserService;
-
-
 
 @Controller
 public class DeckController {
@@ -53,9 +50,8 @@ public class DeckController {
 
     }
 
-
     @GetMapping("/main/deck/explore/{id}")
-    public String explorePublicDeckFilter(Model model , @PathVariable Long id) {
+    public String explorePublicDeckFilter(Model model, @PathVariable Long id) {
         List<Deck> decks = deckService.selectPublicDeckByMatiere(id);
 
         model.addAttribute("decks", decks);
@@ -68,8 +64,13 @@ public class DeckController {
     @PostMapping("/main/deck/publish")
     public String publishDeck(Long deckId) {
 
-        deckService.makePublic(deckId);
         Deck deck = deckService.findById(deckId);
+        if (deck.isIsPublic()) {
+            deckService.makePrivate(deckId);
+        } else {
+            deckService.makePublic(deckId);
+        }
+
         return "redirect:/main/deck/edit/" + deck.getId();
     }
 
@@ -81,7 +82,7 @@ public class DeckController {
             return "dashboard";
         }
         Deck deck = deckService.saveDeck(deckDto);
-      
+
         User user = userService.getAuthUser();
         deckService.LinkUserToDeck(user.getEmail(), deck.getId());
         userService.updateNbDeckCree(user);
@@ -120,8 +121,6 @@ public class DeckController {
         user.getDecks().removeIf(deck -> deck.getId() == id);
         userService.updateUser(user);
         deckService.makePrivate(id);
-       
-
 
         return "redirect:/main/deck";
     }
