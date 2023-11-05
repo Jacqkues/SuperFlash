@@ -19,4 +19,6 @@ public interface DeckService {
     void makePublic(Long id);
 
     void makePrivate(Long id);
+
+    List<Deck> selectPublicDeckByMatiere(Long id);
 }

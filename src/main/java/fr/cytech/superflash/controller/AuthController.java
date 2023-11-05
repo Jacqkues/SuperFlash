@@ -49,6 +49,7 @@ public class AuthController {
             
             User user = userService.findUserByEmail(username);
             model.addAttribute("user", user);
+            
         }
 
         return "myaccount";

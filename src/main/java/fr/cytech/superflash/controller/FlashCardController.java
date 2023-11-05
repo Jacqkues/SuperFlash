@@ -1,5 +1,6 @@
 package fr.cytech.superflash.controller;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +14,12 @@ import org.springframework.validation.BindingResult;
 import fr.cytech.superflash.dto.FlashCardDto;
 
 import fr.cytech.superflash.entity.FlashCard;
-
+import fr.cytech.superflash.entity.Matiere;
 
 import fr.cytech.superflash.service.FlashCardService;
+
+import fr.cytech.superflash.repository.MatiereRepository;
+
 import jakarta.validation.Valid;
 
 
@@ -28,6 +32,9 @@ public class FlashCardController {
 
     @Autowired
     private FlashCardService flashCardService;
+
+    @Autowired
+    private MatiereRepository matiereRepository;
 
     
     @PostMapping("/main/flashcard/update")
@@ -69,7 +76,8 @@ public class FlashCardController {
         FlashCard flashCard = flashCardService.findFlashCardById(id);
 
         model.addAttribute("flashcard", flashCard);
-
+        List<Matiere> matieres = matiereRepository.findAll();
+        model.addAttribute("matieres", matieres);
         return "flashcardedit";
     }
 

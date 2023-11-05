@@ -8,21 +8,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-
 import fr.cytech.superflash.entity.FlashCard;
+import fr.cytech.superflash.entity.Matiere;
 import fr.cytech.superflash.entity.Revision;
 import fr.cytech.superflash.entity.User;
 
 import fr.cytech.superflash.service.FlashCardService;
 import fr.cytech.superflash.service.RevisionService;
 import fr.cytech.superflash.service.UserService;
-
+import fr.cytech.superflash.repository.MatiereRepository;
 
 import java.util.Calendar;
 import java.util.List;
 
 import java.util.Date;
-
 
 @Controller
 public class RevisionController {
@@ -35,6 +34,9 @@ public class RevisionController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MatiereRepository matiereRepository;
 
     @GetMapping("/main/newsmart")
     public String newSmartRev(Model model) {
@@ -124,6 +126,9 @@ public class RevisionController {
         model.addAttribute("flashcard", flashcard);
         model.addAttribute("index", index);
         model.addAttribute("revision", rev);
+
+        List<Matiere> matieres = matiereRepository.findAll();
+        model.addAttribute("matieres", matieres);
         return "answerFlashCard";
     }
 
@@ -132,7 +137,6 @@ public class RevisionController {
 
         Revision rev = revisionService.findById(id);
 
-      
         rev.setFinish(true);
         revisionService.update(rev);
 
@@ -140,6 +144,9 @@ public class RevisionController {
         model.addAttribute("revisions", revs);
         model.addAttribute("revision", rev);
         model.addAttribute("pourcentage", rev.getPercentage());
+
+        List<Matiere> matieres = matiereRepository.findAll();
+        model.addAttribute("matieres", matieres);
         return "result";
     }
 

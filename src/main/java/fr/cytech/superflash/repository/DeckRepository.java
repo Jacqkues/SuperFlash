@@ -8,5 +8,7 @@ import java.util.List;
 public interface DeckRepository extends JpaRepository<Deck, Long>{
 
     List<Deck> findByIsPublic(boolean b);
+
+    List<Deck> findByMatiereIdAndIsPublicIsTrue(Long id);
     
 }

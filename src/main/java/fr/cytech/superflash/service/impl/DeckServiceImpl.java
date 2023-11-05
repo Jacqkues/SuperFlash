@@ -110,5 +110,10 @@ public class DeckServiceImpl implements DeckService{
         deck.setIsPublic(false);
         deckRepository.save(deck);
     }
+
+    @Override
+    public List<Deck> selectPublicDeckByMatiere(Long id) {
+        return deckRepository.findByMatiereIdAndIsPublicIsTrue(id);
+    }
     
 }

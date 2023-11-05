@@ -47,6 +47,20 @@ public class DeckController {
         List<Deck> decks = deckService.findPublicDeck();
 
         model.addAttribute("decks", decks);
+        List<Matiere> matieres = matiereRepository.findAll();
+        model.addAttribute("matieres", matieres);
+        return "explore";
+
+    }
+
+
+    @GetMapping("/main/deck/explore/{id}")
+    public String explorePublicDeckFilter(Model model , @PathVariable Long id) {
+        List<Deck> decks = deckService.selectPublicDeckByMatiere(id);
+
+        model.addAttribute("decks", decks);
+        List<Matiere> matieres = matiereRepository.findAll();
+        model.addAttribute("matieres", matieres);
         return "explore";
 
     }
@@ -83,6 +97,8 @@ public class DeckController {
         List<FlashCard> flashCards = flashCardService.findFlashCardByDeckId(id);
         model.addAttribute("flashcards", flashCards);
 
+        List<Matiere> matieres = matiereRepository.findAll();
+        model.addAttribute("matieres", matieres);
         return "editdeck";
     }
 
@@ -105,6 +121,7 @@ public class DeckController {
         userService.updateUser(user);
         deckService.makePrivate(id);
        
+
 
         return "redirect:/main/deck";
     }

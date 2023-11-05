@@ -30,6 +30,18 @@
 
     <div class="max-w-[950px] m-auto mt-20">
         <h1 class="text-4xl font-bold">Public Decks</h1>
+
+        <div class="mb-3 flex flex-col mt-16">
+            <label>Matiere </label>
+            <select class="mt-2 p-2 w-[250px]" id="redirectSelect" name="matiereId">
+                <option value="All">All</option>
+                <option th:each="matiere : ${matieres}" th:value="${matiere.id}">
+                    <span th:text="${matiere.name}"></span>
+                </option>
+            </select>
+        </div>
+
+
         <div th:each="deck : ${decks}" class="mt-8 mb-8 flex flex-col gap-6">
             <div class="bg-white shadow-md rounded-lg w-[75%] flex justify-between p-4 items-center">
                 <div class="flex flex-col">
@@ -99,7 +111,15 @@
 <script>
 
 
+    const selectElement = document.getElementById("redirectSelect");
 
+    selectElement.addEventListener("change", function () {
+        const selectedOption = selectElement.value;
+        if (selectedOption) {
+            // Redirect to the selected page
+            window.location.href = `/main/deck/explore/${selectedOption}`;
+        }
+    });
 
     const modalTrigger = document.querySelectorAll('[data-modal-toggle]');
     const modal = document.getElementById('authentication-modal');

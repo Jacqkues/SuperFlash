@@ -4,6 +4,8 @@ package fr.cytech.superflash.entity;
 import jakarta.persistence.*;
 
 
+
+
 @Entity
 @Table(name="matieres")
 public class Matiere {
@@ -16,6 +18,7 @@ public class Matiere {
 
     @Column(nullable=false)
     private String description;
+
 
 	public Long getId() {
 		return id;
